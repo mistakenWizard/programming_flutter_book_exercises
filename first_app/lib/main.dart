@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'OurButton.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -8,9 +10,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'An app that can count to'),
     );
   }
 }
@@ -25,6 +27,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String _displayedString;
 
   void _incrementCounter() {
     setState(() {
@@ -32,11 +35,18 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _resetCounter() {
+    setState(() {
+      _counter = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    _displayedString = _counter == 0 ? "None" : _counter.toString();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('${widget.title} $_counter'),
       ),
       body: Center(
         child: Column(
@@ -46,16 +56,26 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              _displayedString,
               style: Theme.of(context).textTheme.headline4,
+            ),
+            FlatButton(
+              onPressed: _resetCounter,
+              color: Colors.red,
+              child: Text(
+                "Reset counter",
+                style: Theme.of(context).textTheme.button,
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: OurButton(
+        text: 'Make the counter ${_counter + 1}',
+        textColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
+        splashColor: Theme.of(context).primaryColorLight,
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }
